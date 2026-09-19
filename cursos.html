@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Cursos | Portafolio Académico</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cursos.css">
+</head>
+<body>
+
+<div class="fondo-tecnologico" aria-hidden="true">
+    <img class="decor-planeta" src="img/fondo/planeta-tecnologico.png" alt="">
+    <img class="decor-ondas" src="img/fondo/ondas-tecnologicas.png" alt="">
+    <img class="decor-red" src="img/fondo/red-tecnologica.png" alt="">
+    <img class="decor-codigo" src="img/fondo/codigo.png" alt="">
+    <img class="decor-laptop" src="img/fondo/laptop-programacion.png" alt="">
+    <img class="decor-montanas" src="img/fondo/montanas-digitales.png" alt="">
+    <img class="decor-circuitos" src="img/fondo/circuitos.png" alt="">
+</div>
+
+<header class="header">
+    <div class="logo">
+        <img class="logo-upla" src="img/logo-upla.png" alt="Logo UPLA">
+        <div class="logo-texto">
+            <span class="logo-titulo">PORTAFOLIO</span>
+            <span class="logo-subtitulo">ACADÉMICO UNIVERSITARIO</span>
+            <span class="logo-cursos">ALGORITMOS Y ESTRUCTURA DE DATOS <b>·</b> TALLER DE DESARROLLO DE APLICACIONES</span>
+        </div>
+    </div>
+    <nav class="menu">
+    <a href="index.html">Inicio</a>
+    <a href="cursos.html" class="activo">Mis cursos</a>
+</nav>
+    <a href="login.html" class="login">🔐 LOGIN</a>
+</header>
+
+<main class="cursos-main">
+    <section class="cursos-hero">
+        <div class="hero-linea"></div>
+        <h1>Mis <strong>Cursos</strong></h1>
+        <p>Un espacio organizado para presentar mi aprendizaje, actividades, proyectos y evidencias desarrolladas durante cada etapa de mi formación universitaria.</p>
+
+        <div class="resumen-cursos">
+            <div><strong>02</strong><span>Cursos</span></div>
+            <div><strong>08</strong><span>Unidades</span></div>
+            <div><strong>16</strong><span>Semanas</span></div>
+            <div><strong id="total-archivos">0</strong><span>Archivos subidos</span></div>
+        </div>
+    </section>
+
+    <section class="selector-cursos">
+        <button class="curso-selector activo" data-course="algoritmos">
+            <span class="selector-icono">{ }</span>
+            <span><small>CURSO 01</small><strong>Algoritmos y Estructuras de Datos</strong><em>4 unidades · 16 semanas</em></span>
+            <b>→</b>
+        </button>
+        <button class="curso-selector" data-course="desarrollo">
+            <span class="selector-icono">&lt;/&gt;</span>
+            <span><small>CURSO 02</small><strong>Desarrollo de Aplicaciones I</strong><em>4 unidades · 16 semanas</em></span>
+            <b>→</b>
+        </button>
+    </section>
+
+    <section class="curso-herramientas" aria-label="Herramientas de búsqueda de materiales">
+        <div class="buscador-cursos">
+            <span aria-hidden="true">⌕</span>
+            <input id="busqueda-materiales" type="search" placeholder="Buscar semanas, temas o materiales..." autocomplete="off">
+        </div>
+        <div class="filtros-cursos">
+            <button class="filtro activo" data-filter="todos">Todos</button>
+            <button class="filtro" data-filter="con-materiales">Con materiales</button>
+            <button class="filtro" data-filter="sin-materiales">Pendientes</button>
+        </div>
+    </section>
+
+    <div id="admin-bar" class="admin-bar" hidden></div>
+
+
+
+    <section id="algoritmos" class="curso-panel activo">
+        <div class="curso-presentacion">
+            <div>
+                <span class="curso-kicker">CURSO · IV CICLO · UPLA</span>
+                <h2>Algoritmos y <strong>Estructuras de Datos</strong></h2>
+                <p>Curso teórico-práctico orientado a resolver problemas computables mediante principios algorítmicos y estructuras de datos. El recorrido avanza desde arreglos hasta árboles, grafos, ordenamiento y búsqueda.</p>
+            </div>
+            <div class="curso-ficha"><span>332141</span><small>05 horas semanales<br>03 créditos</small></div>
+        </div>
+
+        <div class="avance-barra"><div><span>AVANCE DEL RECORRIDO</span><strong>4 unidades · 16 semanas</strong></div><div class="barra"><i></i></div></div>
+
+        <div class="unidades">
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">01</span><span><small>UNIDAD I</small><strong>Conceptos de Algoritmos y Estructuras de Datos</strong><em>Semanas 01 — 04</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="01"><span>01</span><div><small>SEMANA 01</small><h3>Arreglos Bidimensionales</h3><p>Introducción a los arreglos bidimensionales, su representación y sus aplicaciones para resolver problemas mediante estructuras de datos organizadas en filas y columnas.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="01" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="02"><span>02</span><div><small>SEMANA 02</small><h3>Arreglos Paralelos y Arreglos de Objetos</h3><p>Uso y representación de arreglos paralelos y de objetos, comprendiendo cómo organizar información relacionada dentro de programas de aplicación.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="02" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="03"><span>03</span><div><small>SEMANA 03</small><h3>ArrayList y Vector</h3><p>Trabajo con la clase ArrayList y sus operaciones, seguido del estudio de Vector y las operaciones necesarias para gestionar colecciones de datos.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="03" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="04"><span>04</span><div><small>SEMANA 04</small><h3>LinkedList</h3><p>Introducción a la clase LinkedList y sus operaciones, consolidando el primer bloque de estructuras de datos estudiadas.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="04" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">02</span><span><small>UNIDAD II</small><strong>Pilas, Colas y Recursividad</strong><em>Semanas 05 — 08</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="05"><span>05</span><div><small>SEMANA 05</small><h3>Pilas</h3><p>Estudio del TDA pila: definición, representación y operaciones, pilas de objetos, aplicaciones con pilas y uso de la clase Stack.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="05" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="06"><span>06</span><div><small>SEMANA 06</small><h3>Colas</h3><p>Estudio del TDA cola, su definición, representación y operaciones, además de colas de objetos y aplicaciones prácticas.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="06" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="07"><span>07</span><div><small>SEMANA 07</small><h3>Recursividad</h3><p>Introducción a la recursividad, algoritmos y programación recursiva, incluyendo el tratamiento de la recursividad múltiple.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="07" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="08"><span>08</span><div><small>SEMANA 08</small><h3>Recursividad Anidada</h3><p>Aplicación de la recursividad anidada y cierre de la unidad dedicada a pilas, colas y recursividad.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="08" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">03</span><span><small>UNIDAD III</small><strong>Listas Enlazadas</strong><em>Semanas 09 — 12</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="09"><span>09</span><div><small>SEMANA 09</small><h3>Listas Simplemente Enlazadas</h3><p>Definición, representación y operaciones de las listas simplemente enlazadas, incluyendo listas de objetos y sus aplicaciones.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="09" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="10"><span>10</span><div><small>SEMANA 10</small><h3>Listas Circulares Simples</h3><p>Trabajo con el TDA lista circular simplemente enlazada: definición, representación, operaciones y listas circulares de objetos.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="10" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="11"><span>11</span><div><small>SEMANA 11</small><h3>Listas Doblemente Enlazadas</h3><p>Estudio del TDA lista doblemente enlazada, su representación y operaciones, además de su implementación con objetos.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="11" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="12"><span>12</span><div><small>SEMANA 12</small><h3>Listas Circulares Dobles</h3><p>Definición, representación y operaciones de las listas circulares dobles, trabajo con objetos y aplicaciones de esta estructura.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="12" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">04</span><span><small>UNIDAD IV</small><strong>Árboles, Grafos, Ordenación y Búsqueda</strong><em>Semanas 13 — 16</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="13"><span>13</span><div><small>SEMANA 13</small><h3>Árboles</h3><p>Definición, representación y operaciones de árboles; árboles generales, árboles binarios, recorridos y operaciones en árboles binarios.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="13" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="14"><span>14</span><div><small>SEMANA 14</small><h3>Grafos</h3><p>Estudio del TDA grafo, su definición, representación, operaciones y conexiones entre los elementos de un grafo.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="14" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="15"><span>15</span><div><small>SEMANA 15</small><h3>Ordenación y Búsqueda</h3><p>Métodos y algoritmos de ordenación junto con búsqueda secuencial y búsqueda binaria para localizar elementos de manera eficiente.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="15" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="algoritmos" data-week="16"><span>16</span><div><small>SEMANA 16</small><h3>Trabajo Final y Exposición</h3><p>Presentación del trabajo final y evaluación de desempeño, demostrando la aplicación de los contenidos desarrollados durante el curso.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="algoritmos" data-week="16" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="desarrollo" class="curso-panel">
+        <div class="curso-presentacion">
+            <div>
+                <span class="curso-kicker">CURSO · TALLER VII · UPLA</span>
+                <h2>Desarrollo de <strong>Aplicaciones I</strong></h2>
+                <p>Curso práctico centrado en la construcción de aplicaciones de escritorio: interfaz gráfica, gestión de archivos, personalización visual, base de datos y transición hacia una arquitectura cliente-servidor.</p>
+            </div>
+            <div class="curso-ficha"><span>334148</span><small>02 horas semanales<br>01 crédito</small></div>
+        </div>
+
+        <div class="avance-barra"><div><span>AVANCE DEL RECORRIDO</span><strong>4 unidades · 16 semanas</strong></div><div class="barra"><i></i></div></div>
+
+        <div class="unidades">
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">01</span><span><small>UNIDAD I</small><strong>Programación Orientada a Objetos</strong><em>Semanas 01 — 04</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="01"><span>01</span><div><small>SEMANA 01</small><h3>Inicialización del Proyecto y Ventanas Principales</h3><p>Configuración del entorno de desarrollo y creación de la ventana principal JFrame, estableciendo una estructura modular para el proyecto.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="01" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="02"><span>02</span><div><small>SEMANA 02</small><h3>Organización del Espacio con Contenedores</h3><p>Distribución de las zonas de la interfaz mediante JPanel y JScrollPane, preparando una disposición modular y adaptable.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="02" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="03"><span>03</span><div><small>SEMANA 03</small><h3>Implementación de Menús y Navegación</h3><p>Diseño de barras de menús, menús desplegables y opciones de navegación con JMenuBar, JMenu y JMenuItem.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="03" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="04"><span>04</span><div><small>SEMANA 04</small><h3>Componentes Básicos y Validación Visual</h3><p>Integración de etiquetas, campos de texto y botones dentro de los contenedores, completando la estructura visual inicial del proyecto.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="04" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">02</span><span><small>UNIDAD II</small><strong>Componentes de una Aplicación</strong><em>Semanas 05 — 08</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="05"><span>05</span><div><small>SEMANA 05</small><h3>Gestión de Archivos y Persistencia Local</h3><p>Uso de JFileChooser y flujos de lectura y escritura para administrar archivos y lograr una persistencia básica de datos locales.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="05" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="06"><span>06</span><div><small>SEMANA 06</small><h3>Personalización Visual e Identidad</h3><p>Aplicación de librerías de estilos y componentes gráficos, iconos y fuentes para construir una apariencia estandarizada y profesional.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="06" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="07"><span>07</span><div><small>SEMANA 07</small><h3>Tablas y Listas de Datos</h3><p>Integración de JTable, JList y JComboBox para visualizar y organizar información de manera dinámica dentro del software.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="07" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="08"><span>08</span><div><small>SEMANA 08</small><h3>Mensajes, Diálogos y Cierre de Fase</h3><p>Incorporación de JOptionPane, alertas de confirmación y validaciones gráficas para consolidar el segundo hito del proyecto.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="08" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">03</span><span><small>UNIDAD III</small><strong>Base de Datos</strong><em>Semanas 09 — 12</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="09"><span>09</span><div><small>SEMANA 09</small><h3>Conectividad y Driver de Base de Datos</h3><p>Configuración de la conexión entre la aplicación de escritorio y una base de datos relacional mediante clases de conexión y drivers JDBC.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="09" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="10"><span>10</span><div><small>SEMANA 10</small><h3>Inserción y Lectura de Datos</h3><p>Implementación de operaciones Insert y Select desde la interfaz gráfica hacia la base de datos, validando la consistencia de la información.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="10" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="11"><span>11</span><div><small>SEMANA 11</small><h3>Actualización, Eliminación y Transacciones</h3><p>Desarrollo de Update y Delete, además del control de transacciones para mantener la integridad de los datos gestionados.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="11" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="12"><span>12</span><div><small>SEMANA 12</small><h3>Vinculación Dinámica de la Capa de Datos</h3><p>Conexión dinámica de consultas con tablas y listas de la interfaz, consolidando una arquitectura local funcional.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="12" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+
+            <article class="unidad">
+                <button class="unidad-cabecera"><span class="unidad-numero">04</span><span><small>UNIDAD IV</small><strong>Empaquetamiento de la Aplicación</strong><em>Semanas 13 — 16</em></span><b>+</b></button>
+                <div class="semanas">
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="13"><span>13</span><div><small>SEMANA 13</small><h3>Arquitectura Cliente-Servidor e Hilos</h3><p>Adaptación del proyecto a un modelo básico cliente-servidor, comunicación en red y control de procesos concurrentes mediante hilos.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="13" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="14"><span>14</span><div><small>SEMANA 14</small><h3>Depuración, Excepciones y Pruebas</h3><p>Implementación de controles de errores y excepciones, junto con pruebas integrales para asegurar la estabilidad de la aplicación.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="14" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="15"><span>15</span><div><small>SEMANA 15</small><h3>Compilación y Archivo Ejecutable</h3><p>Proceso de build y empaquetamiento del proyecto para generar un archivo ejecutable independiente, como un .jar distribuible.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="15" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                    <div class="semana" data-files="0" data-course="desarrollo" data-week="16"><span>16</span><div><small>SEMANA 16</small><h3>Sustentación del Proyecto Final</h3><p>Presentación grupal de la solución terminada, demostrando la operatividad del sistema bajo una arquitectura modular.</p></div><aside><i>📚</i><strong>Materiales</strong><em><span class="archivo-contador">0</span> archivos</em></aside><button class="admin-add-material" type="button" data-course="desarrollo" data-week="16" hidden>＋ Agregar material</button><div class="materiales-contenido" aria-live="polite"><div class="materiales-vacios"><span>＋</span> Aún no hay materiales publicados en esta semana.</div></div></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+
+
+    <dialog id="material-dialog" class="material-dialog">
+        <form id="material-form" method="dialog">
+            <div class="dialog-head"><div><span>ADMINISTRADOR</span><h2>Agregar material</h2><p id="material-location">Selecciona una semana.</p></div><button type="button" class="dialog-close" id="dialog-close">×</button></div>
+            <input type="hidden" id="material-course"><input type="hidden" id="material-week">
+            <div class="dialog-grid">
+                <label>Nombre del material<input id="material-name" type="text" maxlength="120" required placeholder="Ej. Actividad 01 - Arreglos bidimensionales"></label>
+                <label>Descripción (opcional)<textarea id="material-description" rows="3" maxlength="500" placeholder="Breve descripción del material"></textarea></label>
+                <label>Tipo<select id="material-type"><option value="archivo">Archivo</option><option value="url">URL / enlace</option></select></label>
+                <label id="file-field">Archivo<input id="material-file" type="file" multiple><small class="file-help">Puedes seleccionar varios archivos a la vez. Cada archivo quedará registrado como un material independiente.</small></label>
+                <label id="url-field" hidden>URL externa<input id="material-url" type="url" placeholder="https://..."></label>
+            </div>
+            <div class="dialog-note">Puedes subir PDF, Word, Excel, PowerPoint, ZIP, imágenes, videos y otros archivos permitidos por el almacenamiento.</div>
+            <div class="dialog-actions"><button type="button" class="dialog-secondary" id="dialog-cancel">Cancelar</button><button class="dialog-primary" id="material-save" type="submit">Guardar material</button></div>
+            <div id="material-message" class="dialog-message" aria-live="polite"></div>
+        </form>
+    </dialog>
+</main>
+
+<footer>
+    <div><strong>Jhonstyn Yeray Vega Muñoz</strong><span>Ingeniería de Sistemas y Computación · UPLA</span></div>
+    <p>© 2026 · Portafolio Académico</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/cursos.js"></script>
+</body>
+</html>
