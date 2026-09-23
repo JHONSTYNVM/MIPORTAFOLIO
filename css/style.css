@@ -3229,3 +3229,81 @@ body > *:not(.fondo-tecnologico) {
         background-size: 100% 100% !important;
     }
 }
+/* =====================================================
+   RESPONSIVE GENERAL - TABLET Y PROYECTORES
+===================================================== */
+
+@media (max-width:1100px){
+
+    .header{
+        padding:12px 4%;
+    }
+
+    .menu{
+        gap:18px;
+    }
+
+    .hero{
+        width:92%;
+        padding:45px;
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .hero-botones{
+        justify-content:center;
+    }
+
+    .hero-perfil{
+        margin-top:30px;
+    }
+
+
+    .tarjetas{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+
+    .cursos-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+@media(max-width:700px){
+
+    .header{
+        flex-direction:column;
+        gap:20px;
+    }
+
+
+    .menu{
+        position:static;
+        transform:none;
+        flex-wrap:wrap;
+    }
+
+
+    .hero{
+        padding:25px;
+        margin:25px auto;
+    }
+
+
+    .hero h1{
+        font-size:38px;
+    }
+
+
+    .tarjetas{
+        grid-template-columns:1fr;
+    }
+
+
+    .informacion,
+    .cursos-destacados{
+        margin:50px auto;
+        padding:0 15px;
+    }
+
+}
