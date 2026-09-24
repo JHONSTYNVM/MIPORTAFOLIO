@@ -2106,14 +2106,13 @@ body > *:not(.fondo-tecnologico) {
 
 /* Entrada elegante del bloque principal */
 .hero {
-    animation: entradaHero .85s ease-out both;
+    animation: none;
 }
 
 /* La fotografía aparece ligeramente después */
 .hero-perfil {
-    animation: entradaPerfil 1s .15s ease-out both;
+    animation: none;
 }
-
 /* Secciones inferiores aparecen después del Hero */
 .informacion {
     animation: entradaSeccion 1s .25s ease-out both;
@@ -3398,5 +3397,20 @@ body > *:not(.fondo-tecnologico) {
 
 }
 
+
+}
+@media (max-width:680px){
+
+    .perfil-marco{
+        animation:none;
+    }
+
+}
+@media (max-width:680px){
+
+.fondo-tecnologico img{
+    animation:none !important;
+    transform:none !important;
+}
 
 }
