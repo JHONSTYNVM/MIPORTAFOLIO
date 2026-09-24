@@ -1514,13 +1514,20 @@ footer p {
         font-size: 20px;
     }
 
-.menu {
-    gap:8px;
+.menu{
+    position:static;
+    transform:none;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:18px;
 }
 
-    .menu a:not(.login) {
-        display:block;
-    }
+
+.menu a{
+    display:block !important;
+    font-size:11px;
+}
 
     .hero {
         margin: 25px 14px;
