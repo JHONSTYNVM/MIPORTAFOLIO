@@ -1758,7 +1758,7 @@ footer p {
 
 body {
     position: relative;
-    isolation: isolate;
+    isolation:auto;
     overflow-x: hidden;
 }
 
@@ -1932,8 +1932,11 @@ body > *:not(.fondo-tecnologico) {
 }
 
 @media (max-width: 680px) {
+
     .fondo-tecnologico img {
-        opacity: .16;
+        opacity: .08;
+        animation: none !important;
+        transform: none !important;
     }
 
     .fondo-tecnologico .decor-planeta {
@@ -3411,6 +3414,41 @@ body > *:not(.fondo-tecnologico) {
 .fondo-tecnologico img{
     animation:none !important;
     transform:none !important;
+}
+
+}
+@media (max-width:680px){
+
+    body::before,
+    body::after{
+        display:none;
+    }
+
+
+    .fondo-tecnologico{
+        position:absolute;
+        height:100%;
+    }
+
+
+    .hero,
+    .tarjeta,
+    .curso-card,
+    .mensaje-final{
+        backdrop-filter:none;
+    }
+
+
+}
+@media (max-width:680px){
+
+.fondo-tecnologico *,
+.perfil-marco,
+.informacion,
+.cursos-destacados,
+.mensaje-final,
+.curso-numero{
+    animation:none !important;
 }
 
 }
