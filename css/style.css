@@ -1514,12 +1514,12 @@ footer p {
         font-size: 20px;
     }
 
-    .menu {
-        gap: 10px;
-    }
+.menu {
+    gap:8px;
+}
 
     .menu a:not(.login) {
-        display: none;
+        display:block;
     }
 
     .hero {
@@ -3449,6 +3449,19 @@ body > *:not(.fondo-tecnologico) {
 .mensaje-final,
 .curso-numero{
     animation:none !important;
+}
+
+}
+@media(max-width:680px){
+
+.menu a{
+    font-size:10px;
+    letter-spacing:0;
+}
+
+.menu{
+    position:static;
+    transform:none;
 }
 
 }
