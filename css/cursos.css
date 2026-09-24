@@ -433,3 +433,103 @@ footer{position:relative;z-index:5;display:flex;justify-content:space-between;ga
     }
 
 }
+/* =====================================================
+   RESPONSIVE FINAL PORTAFOLIO MOVIL
+===================================================== */
+
+@media(max-width:600px){
+
+    .cursos-main{
+        width:92%;
+        padding:35px 0;
+    }
+
+
+    .cursos-hero h1{
+        font-size:42px;
+    }
+
+
+    .cursos-hero>p{
+        font-size:16px;
+        line-height:1.6;
+    }
+
+
+    .resumen-cursos{
+        grid-template-columns:1fr;
+    }
+
+
+    .curso-presentacion{
+        display:flex;
+        flex-direction:column;
+        padding:22px;
+    }
+
+
+    .curso-presentacion p{
+        font-size:15px;
+        line-height:1.7;
+    }
+
+
+    .unidades{
+        display:block !important;
+    }
+
+
+    .unidad{
+        width:100%;
+        margin-bottom:20px;
+    }
+
+
+    .unidad-cabecera{
+
+        display:grid;
+
+        grid-template-columns:60px minmax(0,1fr);
+
+        gap:15px;
+
+        width:100%;
+
+        min-height:auto;
+
+        padding:18px;
+
+    }
+
+
+    .unidad-cabecera strong{
+
+        font-size:20px;
+
+        line-height:1.3;
+
+    }
+
+
+    .unidad-cabecera p{
+
+        word-break:normal;
+
+    }
+
+
+    .material-item{
+
+        width:100%;
+
+    }
+
+
+    .semana{
+
+        grid-template-columns:45px minmax(0,1fr);
+
+    }
+
+
+}
