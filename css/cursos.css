@@ -32,7 +32,7 @@
 .logo-simbolo{width:45px;height:45px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#00bff2,#1763d9);font-size:30px;font-weight:900;color:#fff;box-shadow:0 0 25px rgba(0,185,255,.35)}
 footer{position:relative;z-index:5;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:28px 7%;border-top:1px solid rgba(0,204,255,.14);background:rgba(2,14,40,.55);backdrop-filter:blur(14px)}footer div{display:flex;flex-direction:column}footer strong{font-size:14px}footer span,footer p{color:#7994b8;font-size:12px}
 @media(max-width:850px){.resumen-cursos{grid-template-columns:repeat(2,1fr)}.selector-cursos{grid-template-columns:1fr}.curso-presentacion{grid-template-columns:1fr}.curso-ficha{border-left:0;border-top:1px solid rgba(0,229,255,.2);padding:15px 0 0}.semana{grid-template-columns:45px 1fr}.semana aside{grid-column:2;border-left:0;padding-left:0;flex-direction:row;gap:8px;align-items:center}.semana aside i{font-size:17px}}
-@media(max-width:600px){.cursos-main{width:94%;padding-top:45px}.resumen-cursos{gap:9px}.resumen-cursos div{padding:14px}.resumen-cursos strong{font-size:22px}.curso-presentacion{padding:24px}.unidad-cabecera{grid-template-columns:55px 1fr 25px;padding:17px}.unidad-numero{width:45px;height:45px}.unidad-cabecera strong{font-size:15px}.semana{grid-template-columns:1fr;padding:15px}.semana>span{font-size:17px}.semana>div{grid-column:1}.semana aside{grid-column:1}.cursos-hero h1{font-size:48px}footer{flex-direction:column;align-items:flex-start}}
+
 
 
 /* =========================================================
@@ -531,5 +531,97 @@ footer{position:relative;z-index:5;display:flex;justify-content:space-between;ga
 
     }
 
+
+}
+/* ================================
+   RESPONSIVE FINAL MOVIL
+================================ */
+
+@media(max-width:768px){
+
+    .cursos-main{
+        width:92%;
+        padding:35px 0;
+    }
+
+    .cursos-hero h1{
+        font-size:42px;
+        line-height:1.1;
+    }
+
+    .cursos-hero>p{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+
+    .resumen-cursos{
+        grid-template-columns:1fr;
+    }
+
+
+    .selector-cursos{
+        grid-template-columns:1fr;
+    }
+
+
+    .curso-presentacion{
+        grid-template-columns:1fr;
+        padding:22px;
+    }
+
+
+    .curso-ficha{
+        border-left:none;
+        border-top:1px solid rgba(0,229,255,.2);
+        padding-top:15px;
+    }
+
+
+    .unidades{
+        grid-template-columns:1fr;
+    }
+
+
+    .unidad-cabecera{
+        grid-template-columns:50px 1fr 25px;
+        padding:18px;
+        min-height:100px;
+    }
+
+
+    .unidad-numero{
+        width:45px;
+        height:45px;
+    }
+
+
+    .unidad-cabecera strong{
+        font-size:18px;
+    }
+
+
+    .semana{
+        grid-template-columns:1fr;
+        padding:15px;
+    }
+
+
+    .semana aside{
+        grid-column:1;
+        border-left:none;
+        padding-left:0;
+    }
+
+
+    .material-item{
+        grid-template-columns:35px 1fr;
+    }
+
+
+    footer{
+        flex-direction:column;
+        text-align:center;
+    }
 
 }

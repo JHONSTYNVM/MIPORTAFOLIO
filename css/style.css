@@ -3307,3 +3307,96 @@ body > *:not(.fondo-tecnologico) {
     }
 
 }
+/* ================================
+   RESPONSIVE FINAL PRINCIPAL
+================================ */
+
+
+@media(max-width:768px){
+
+
+.header{
+
+    padding:15px 5%;
+}
+
+
+.logo img{
+
+    width:45px;
+    height:45px;
+
+}
+
+
+.menu{
+
+    display:none;
+
+}
+
+
+
+.hero{
+
+    width:92%;
+    margin:30px auto;
+    padding:30px 20px;
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+
+}
+
+
+.hero h1{
+
+    font-size:40px;
+
+}
+
+
+
+.hero-botones{
+
+    justify-content:center;
+
+}
+
+
+
+.perfil-marco{
+
+    width:220px;
+    height:250px;
+
+}
+
+
+
+.tarjetas{
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+.cursos-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+
+.informacion,
+.cursos-destacados{
+
+    margin:50px auto;
+    padding:0 15px;
+
+}
+
+
+}
