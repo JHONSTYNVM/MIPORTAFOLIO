@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let filtroActual = 'todos';
     let isAdmin = false;
     let materiales = [];
+    let galerias = [];
+    let galleriesReady = false;
+    let galleriesError = 'Las galerías todavía no están disponibles.';
 
 
     /* =====================================================
@@ -56,14 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
-
-    }
-
-
-    function escapeAttribute(value) {
-
-        return String(value ?? '')
-            .replace(/"/g, '&quot;');
 
     }
 
@@ -197,195 +192,64 @@ document.addEventListener('DOMContentLoaded', async () => {
        MOSTRAR MATERIALES
        ===================================================== */
 
+    function renderMaterial(material) {
+        const viewUrl = materialViewUrl(material);
+        const downloadUrl = material.file_url || material.external_url || '';
+        const meta = [material.material_type === 'url' ? 'Enlace externo' : 'Archivo',
+            formatBytes(material.file_size)].filter(Boolean).join(' · ');
+        return '<article class="material-item">' +
+            '<div class="material-icono" aria-hidden="true">' + iconFor(material) + '</div>' +
+            '<div class="material-info"><h5>' + escapeHTML(material.name) + '</h5>' +
+            (material.description ? '<p class="material-description">' + escapeHTML(material.description) + '</p>' : '') +
+            '<span class="material-meta">' + escapeHTML(meta) + '</span></div>' +
+            '<div class="material-acciones">' +
+            (viewUrl ? '<a href="' + escapeHTML(viewUrl) + '" target="_blank" rel="noopener">👁 Visualizar</a>' : '') +
+            (downloadUrl ? '<button type="button" class="material-download" data-url="' + escapeHTML(downloadUrl) + '" data-name="' + escapeHTML(material.name || 'material') + '">↓ Descargar</button>' : '') +
+            (isAdmin ? '<button type="button" data-gallery-action="assign" data-id="' + escapeHTML(material.id) + '" ' + (galleriesReady ? '' : 'disabled') + '>Cambiar galería</button>' +
+                '<button type="button" class="material-delete" data-id="' + escapeHTML(material.id) + '">🗑 Eliminar</button>' : '') +
+            '</div></article>';
+    }
+
+    function renderGallery(gallery, items) {
+        return '<section class="gallery-block" data-gallery-id="' + escapeHTML(gallery.id) + '">' +
+            '<header class="gallery-heading"><span class="gallery-kicker">GALERÍA / ACTIVIDAD</span>' +
+            '<h4>' + escapeHTML(gallery.name) + '</h4>' +
+            (gallery.description ? '<p>' + escapeHTML(gallery.description) + '</p>' : '') +
+            '<span class="gallery-count">' + items.length + ' materiales</span>' +
+            (isAdmin && galleriesReady ? '<div class="gallery-admin-actions">' +
+                '<button type="button" data-gallery-action="edit" data-id="' + escapeHTML(gallery.id) + '">Editar galería</button>' +
+                '<button type="button" data-gallery-action="delete" data-id="' + escapeHTML(gallery.id) + '">Eliminar galería</button></div>' : '') +
+            '</header><div class="gallery-materials">' + (items.length ? items.map(renderMaterial).join('') :
+                '<p class="materiales-vacios">Aún no hay materiales en esta galería.</p>') + '</div></section>';
+    }
+
     function renderMaterials() {
-
-        document
-            .querySelectorAll(
-                '.semana[data-course][data-week]'
-            )
-            .forEach(semana => {
-
-                const course =
-                    semana.dataset.course;
-
-                const week =
-                    Number(semana.dataset.week);
-
-
-                const list = materiales.filter(
-                    m =>
-                        m.course_key === course &&
-                        Number(m.week_number) === week &&
-                        m.published !== false
-                );
-
-
-                const contador =
-                    semana.querySelector(
-                        '.archivo-contador'
-                    );
-
-
-                if (contador) {
-                    contador.textContent =
-                        list.length;
-                }
-
-
-                semana.dataset.files =
-                    list.length;
-
-
-                const contenido =
-                    semana.querySelector(
-                        '.materiales-contenido'
-                    );
-
-
-                if (!contenido) return;
-
-
-                if (!list.length) {
-
-                    contenido.innerHTML = isAdmin
-
-                        ? `
-                        <div class="materiales-vacios">
-                            <span>＋</span>
-                            No hay materiales todavía.
-                            Usa “Agregar material”
-                            para publicar el primero.
-                        </div>
-                        `
-
-                        : `
-                        <div class="materiales-vacios">
-                            <span>＋</span>
-                            Aún no hay materiales
-                            publicados en esta semana.
-                        </div>
-                        `;
-
-                    return;
-
-                }
-
-
-                contenido.innerHTML =
-                    list.map(material => {
-
-                        const viewUrl =
-                            materialViewUrl(material);
-
-                        const downloadUrl =
-                            material.file_url ||
-                            material.external_url ||
-                            '';
-
-
-                        const meta = [
-                            material.material_type === 'url'
-                                ? 'Enlace externo'
-                                : 'Archivo',
-
-                            material.file_size
-                                ? formatBytes(
-                                    material.file_size
-                                )
-                                : ''
-
-                        ]
-                        .filter(Boolean)
-                        .join(' · ');
-
-
-                        return `
-                        <article class="material-item">
-
-                            <div class="material-icono">
-                                ${iconFor(material)}
-                            </div>
-
-                            <div class="material-info">
-
-                                <strong>
-                                    ${escapeHTML(
-                                        material.name
-                                    )}
-                                </strong>
-
-                                <span>
-                                    ${escapeHTML(
-                                        material.description ||
-                                        meta ||
-                                        'Material académico'
-                                    )}
-                                </span>
-
-                            </div>
-
-
-                            <div class="material-acciones">
-
-                                ${
-                                    viewUrl
-                                    ? `
-                                    <a
-                                        href="${escapeAttribute(viewUrl)}"
-                                        target="_blank"
-                                        rel="noopener"
-                                    >
-                                        👁 Visualizar
-                                    </a>
-                                    `
-                                    : ''
-                                }
-
-
-                               ${
-    downloadUrl
-    ? `
-    <button
-        type="button"
-        class="material-download"
-        data-url="${escapeAttribute(downloadUrl)}"
-        data-name="${escapeAttribute(
-            material.name || 'material'
-        )}"
-    >
-        ↓ Descargar
-    </button>
-    `
-    : ''
-}
-
-
-                                ${
-                                    isAdmin
-                                    ? `
-                                    <button
-                                        type="button"
-                                        class="material-delete"
-                                        data-id="${escapeAttribute(
-                                            material.id
-                                        )}"
-                                    >
-                                        🗑 Eliminar
-                                    </button>
-                                    `
-                                    : ''
-                                }
-
-                            </div>
-
-                        </article>
-                        `;
-
-                    })
-                    .join('');
-
-            });
-
+        document.querySelectorAll('.semana[data-course][data-week]').forEach(semana => {
+            const course = semana.dataset.course;
+            const week = Number(semana.dataset.week);
+            const list = materiales.filter(m => m.course_key === course &&
+                Number(m.week_number) === week && m.published !== false);
+            const weekGalleries = galerias.filter(g => g.course_key === course && Number(g.week_number) === week);
+            const ids = new Set(weekGalleries.map(g => String(g.id)));
+            // Conservar visibles los registros antiguos y asignaciones aún no disponibles.
+            const unassigned = list.filter(m => !m.gallery_id || !ids.has(String(m.gallery_id)));
+            const counter = semana.querySelector('.archivo-contador');
+            if (counter) counter.textContent = list.length;
+            semana.dataset.files = list.length;
+            const content = semana.querySelector('.materiales-contenido');
+            if (!content) return;
+            content.innerHTML = weekGalleries.map(g => renderGallery(g,
+                list.filter(m => String(m.gallery_id) === String(g.id)))).join('');
+            if (unassigned.length) {
+                content.innerHTML += '<section class="gallery-block gallery-unassigned">' +
+                    '<header class="gallery-heading"><h4>Materiales sin galería</h4></header>' +
+                    '<div class="gallery-materials">' + unassigned.map(renderMaterial).join('') + '</div></section>';
+            } else if (!weekGalleries.length) {
+                content.innerHTML = '<p class="materiales-vacios">' + (isAdmin
+                    ? 'No hay materiales todavía. Usa “Agregar material” para publicar el primero.'
+                    : 'Aún no hay materiales publicados en esta semana.') + '</p>';
+            }
+        });
 
         const totalEl =
             document.getElementById(
@@ -845,6 +709,7 @@ document.addEventListener('DOMContentLoaded', async () => {
            ========================================== */
 
         isAdmin = true;
+        document.querySelectorAll('.week-admin-actions').forEach(el => { el.hidden = false; });
 
 
         document.body.classList.add(
@@ -877,6 +742,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
 
 
+                <button type="button" data-gallery-action="create" disabled>＋ Crear galería</button>
+                <p id="galleries-status" class="galleries-status" role="status"></p>
                 <button
                     id="admin-logout"
                     type="button"
@@ -1007,6 +874,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             true;
 
 
+        syncMaterialLocation(course, week);
+        syncMaterialType();
         dialog.showModal();
 
     }
@@ -1016,34 +885,19 @@ document.addEventListener('DOMContentLoaded', async () => {
        CAMBIAR ENTRE ARCHIVO Y URL
        ===================================================== */
 
-    typeSelect?.addEventListener(
-        'change',
-        () => {
-
-            const url =
-                typeSelect.value === 'url';
-
-
-            fileField.hidden =
-                url;
-
-
-            urlField.hidden =
-                !url;
-
-
-            document.getElementById(
-                'material-file'
-            ).required = !url;
-
-
-            document.getElementById(
-                'material-url'
-            ).required = url;
-
-        }
-    );
-
+    function syncMaterialType() {
+        const url = typeSelect.value === 'url';
+        fileField.hidden = url;
+        urlField.hidden = !url;
+        document.getElementById('material-file').required = !url;
+        document.getElementById('material-file').disabled = url;
+        document.getElementById('material-url').required = url;
+        document.getElementById('material-url').disabled = !url;
+    }
+    typeSelect?.addEventListener('change', syncMaterialType);
+    dialog.addEventListener('cancel', event => {
+        if (form.dataset.busy === 'true') event.preventDefault();
+    });
 
     /* =====================================================
        CERRAR DIALOG
@@ -1055,7 +909,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
         ?.addEventListener(
             'click',
-            () => dialog.close()
+            () => { if (form.dataset.busy !== 'true') dialog.close(); }
         );
 
 
@@ -1065,7 +919,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
         ?.addEventListener(
             'click',
-            () => dialog.close()
+            () => { if (form.dataset.busy !== 'true') dialog.close(); }
         );
 
 
@@ -1078,6 +932,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         async event => {
 
             event.preventDefault();
+            if (form.dataset.busy === 'true') return;
 
 
             if (
@@ -1093,13 +948,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
 
-            const save =
-                document.getElementById(
-                    'material-save'
-                );
-
-
-            const course =
+const course =
                 document.getElementById(
                     'material-course'
                 ).value;
@@ -1125,43 +974,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ).value.trim();
 
 
-            const type =
-                typeSelect.value;
-
-
-            /* Obtener usuario */
-
-            const {
-                data: userData
-            } = await supabaseClient
-                .auth
-                .getUser();
-
-
-            const user =
-                userData?.user;
-
-
-            if (!user) {
-
-                messageEl.textContent =
-                    'La sesión administrativa ha terminado.';
-
+            const type = typeSelect.value;
+            const galleryId = document.getElementById('material-gallery').value || null;
+            if (galleryId && (!galleriesReady || !galerias.some(g => g.id === galleryId && g.course_key === course && Number(g.week_number) === week))) {
+                messageEl.textContent = 'Selecciona una galería válida para este curso y semana.';
                 return;
-
             }
+            const galleryFields = galleriesReady ? { gallery_id: galleryId } : {};
 
 
-            save.disabled = true;
-
-
-            messageEl.textContent =
-                type === 'url'
-                    ? 'Guardando enlace...'
-                    : 'Subiendo material...';
-
+            // Capturar la selección antes de cualquier espera y bloquear cambios durante la subida.
+            const selectedFiles = Array.from(document.getElementById('material-file').files || []);
+            const selectedUrl = document.getElementById('material-url').value.trim();
+            const controls = Array.from(form.elements).map(el => [el, el.disabled]);
+            form.dataset.busy = 'true';
+            controls.forEach(([el]) => { el.disabled = true; });
+            messageEl.textContent = type === 'url' ? 'Guardando enlace...' : 'Subiendo material...';
 
             try {
+                const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+                const user = userData?.user;
+                if (userError || !user) throw new Error('La sesión administrativa ha terminado.');
 
                 /* ======================================
                    GUARDAR ENLACE
@@ -1169,10 +1002,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (type === 'url') {
 
-                    const externalUrl =
-                        document.getElementById(
-                            'material-url'
-                        ).value.trim();
+                    const externalUrl = selectedUrl;
 
 
                     if (!externalUrl) {
@@ -1188,6 +1018,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         await supabaseClient
                             .from('materials')
                             .insert({
+                                ...galleryFields,
 
                                 course_key:
                                     course,
@@ -1235,12 +1066,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 else {
 
-                    const files =
-                        Array.from(
-                            document.getElementById(
-                                'material-file'
-                            ).files || []
-                        );
+                    const files = selectedFiles;
 
 
                     if (!files.length) {
@@ -1354,6 +1180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             await supabaseClient
                                 .from('materials')
                                 .insert({
+                                ...galleryFields,
 
                                     course_key:
                                         course,
@@ -1436,13 +1263,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 );
 
 
+                renderMaterials();
+                aplicarBusqueda();
                 messageEl.textContent =
                     error.message ||
                     'No se pudo guardar el material.';
 
             } finally {
 
-                save.disabled = false;
+                controls.forEach(([el, disabled]) => { el.disabled = disabled; });
+                delete form.dataset.busy;
 
             }
 
@@ -1516,8 +1346,7 @@ async function eliminarMaterial(id) {
     // -----------------------------------------------------
 
     const nombre =
-        material.title ||
-        material.file_name ||
+        material.name ||
         'este material';
 
 
@@ -1541,7 +1370,55 @@ async function eliminarMaterial(id) {
     try {
 
         // =================================================
-        // 1. ELIMINAR REGISTRO DE LA TABLA
+        // 1. ELIMINAR ARCHIVO DEL STORAGE
+        // =================================================
+
+        if (
+            material.storage_path
+        ) {
+
+            console.log(
+                '🗑 Eliminando archivo:',
+                material.storage_path
+            );
+
+
+            const {
+                error: storageError
+            } =
+                await supabaseClient
+                    .storage
+                    .from('materiales')
+                    .remove([
+                        material.storage_path
+                    ]);
+
+
+            if (storageError) {
+
+                console.error(
+                    '❌ Error eliminando archivo:',
+                    storageError
+                );
+
+                alert(
+                    '❌ No se pudo eliminar el archivo del almacenamiento:\n' +
+                    storageError.message
+                );
+
+                return;
+            }
+
+
+            console.log(
+                '✅ Archivo eliminado del Storage.'
+            );
+
+        }
+
+
+        // =================================================
+        // 2. ELIMINAR REGISTRO DE LA TABLA
         // =================================================
 
         const {
@@ -1575,56 +1452,6 @@ async function eliminarMaterial(id) {
         console.log(
             '✅ Registro eliminado de materials.'
         );
-
-
-        // =================================================
-        // 2. ELIMINAR ARCHIVO DEL STORAGE
-        // =================================================
-
-        if (
-            material.file_path
-        ) {
-
-            console.log(
-                '🗑 Eliminando archivo:',
-                material.file_path
-            );
-
-
-            const {
-                error: storageError
-            } =
-                await supabaseClient
-                    .storage
-                    .from('materiales')
-                    .remove([
-                        material.file_path
-                    ]);
-
-
-            if (storageError) {
-
-                console.error(
-                    '⚠️ El registro se eliminó, pero el archivo no:',
-                    storageError
-                );
-
-                alert(
-                    '⚠️ El material fue eliminado, ' +
-                    'pero el archivo del almacenamiento ' +
-                    'no pudo eliminarse.\n\n' +
-                    storageError.message
-                );
-
-            } else {
-
-                console.log(
-                    '✅ Archivo eliminado del Storage.'
-                );
-
-            }
-
-        }
 
 
         // =================================================
@@ -1755,8 +1582,7 @@ async function eliminarMaterial(id) {
                                 )
                                 .offsetTop - 90,
 
-                        behavior:
-                            'smooth'
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
 
                     });
 
@@ -1775,7 +1601,10 @@ async function eliminarMaterial(id) {
         .querySelectorAll(
             '.unidad-cabecera'
         )
-        .forEach(button => {
+        .forEach((button, index) => {
+            const weeks = button.closest('.unidad').querySelector('.semanas');
+            weeks.id ||= 'unit-weeks-' + index;
+            button.setAttribute('aria-controls', weeks.id);
 
             button.setAttribute(
                 'aria-expanded',
@@ -1860,6 +1689,248 @@ async function eliminarMaterial(id) {
     );
 
 
+    /* Galerías: usa el mismo cliente, sesión y comprobación de administrador. */
+    function courseName(course) {
+        return Array.from(selectors).find(s => s.dataset.course === course)
+            ?.querySelector('strong')?.textContent.trim() || course;
+    }
+
+    function fillCourses(select, selected) {
+        select.replaceChildren(...Array.from(selectors, s =>
+            new Option(courseName(s.dataset.course), s.dataset.course)));
+        if (selected) select.value = selected;
+    }
+
+    function fillWeeks(select, course, selected = 1) {
+        const weeks = Array.from(document.querySelectorAll('.semana'))
+            .filter(w => w.dataset.course === course);
+        select.replaceChildren(...weeks.map(w => new Option(
+            'Semana ' + w.dataset.week + ' · ' + w.querySelector('h3').textContent.trim(),
+            String(Number(w.dataset.week)))));
+        select.value = String(Number(selected));
+        if (!select.value && select.options.length) select.selectedIndex = 0;
+    }
+
+    function fillGalleries(select, course, week, selected = '') {
+        select.replaceChildren(new Option('Materiales sin galería', ''));
+        galerias.filter(g => g.course_key === course && Number(g.week_number) === Number(week))
+            .forEach(g => select.add(new Option(g.name, g.id)));
+        select.value = selected || '';
+        if (select.selectedIndex < 0) select.value = '';
+        select.disabled = !galleriesReady;
+    }
+
+    function updateMaterialGalleryOptions() {
+        const course = document.getElementById('material-course').value;
+        const week = document.getElementById('material-week').value;
+        const select = document.getElementById('material-gallery');
+        fillGalleries(select, course, week, select.value);
+        document.getElementById('material-gallery-help').textContent = galleriesReady
+            ? 'Puedes dejar el material sin galería y asignarlo después.'
+            : galleriesError + ' Puedes seguir subiendo materiales sin galería.';
+        const selectedWeek = document.getElementById('material-week').selectedOptions[0];
+        document.getElementById('material-location').textContent = courseName(course) +
+            ' · ' + (selectedWeek?.textContent || '');
+    }
+
+    function syncMaterialLocation(course, week) {
+        fillCourses(document.getElementById('material-course'), course);
+        fillWeeks(document.getElementById('material-week'), course, week);
+        document.getElementById('material-gallery').value = '';
+        updateMaterialGalleryOptions();
+    }
+
+    document.getElementById('material-course').addEventListener('change', event => {
+        fillWeeks(document.getElementById('material-week'), event.target.value);
+        updateMaterialGalleryOptions();
+    });
+    document.getElementById('material-week').addEventListener('change', updateMaterialGalleryOptions);
+    document.getElementById('gallery-course').addEventListener('change', event => {
+        fillWeeks(document.getElementById('gallery-week'), event.target.value);
+    });
+
+    async function cargarGalerias() {
+        galleriesReady = false;
+        try {
+            if (!supabaseClient) throw new Error('No se pudo conectar con Supabase.');
+            const result = await supabaseClient.from('galleries').select('*')
+                .order('sort_order', { ascending: true }).order('created_at', { ascending: true })
+                .order('id', { ascending: true });
+            if (result.error) throw result.error;
+            const probe = await supabaseClient.from('materials').select('gallery_id').limit(0);
+            if (probe.error) throw probe.error;
+            galerias = result.data || [];
+            galleriesReady = true;
+            galleriesError = '';
+        } catch (error) {
+            const missingSchema = ['PGRST205', 'PGRST204', '42P01', '42703'].includes(error.code);
+            galleriesError = missingSchema
+                ? 'Las galerías requieren ejecutar la migración SQL y recargar esta página.'
+                : 'No se pudieron cargar las galerías. Recarga la página para reintentar.';
+            console.warn('Galerías no disponibles:', error.message);
+        }
+        document.querySelectorAll('[data-gallery-action="create"]').forEach(button => {
+            button.disabled = !galleriesReady || !isAdmin;
+        });
+        const status = document.getElementById('galleries-status');
+        if (status) status.textContent = galleriesError;
+        if (dialog.open && form.dataset.busy !== 'true') updateMaterialGalleryOptions();
+        renderMaterials();
+        aplicarBusqueda();
+    }
+
+    async function requireGalleryAdmin() {
+        if (!isAdmin || !supabaseClient || !galleriesReady) {
+            throw new Error('Debes estar conectado como administrador y tener las galerías disponibles.');
+        }
+        const { data, error } = await supabaseClient.auth.getUser();
+        if (error || !data?.user) throw new Error('La sesión administrativa ha terminado. Vuelve a iniciar sesión.');
+        return data.user;
+    }
+
+    function openGalleryDialog(course, week, gallery = null) {
+        if (!isAdmin || !galleriesReady) return;
+        const galleryForm = document.getElementById('gallery-form');
+        galleryForm.reset();
+        document.getElementById('gallery-id').value = gallery?.id || '';
+        document.getElementById('gallery-dialog-title').textContent = gallery ? 'Editar galería' : 'Crear galería';
+        const courseSelect = document.getElementById('gallery-course');
+        const weekSelect = document.getElementById('gallery-week');
+        fillCourses(courseSelect, course);
+        fillWeeks(weekSelect, course, week);
+        courseSelect.disabled = Boolean(gallery);
+        weekSelect.disabled = Boolean(gallery);
+        document.getElementById('gallery-name').value = gallery?.name || '';
+        document.getElementById('gallery-description').value = gallery?.description || '';
+        document.getElementById('gallery-message').textContent = '';
+        document.getElementById('gallery-dialog').showModal();
+    }
+
+    function openAssignmentDialog(id) {
+        const material = materiales.find(m => String(m.id) === String(id));
+        if (!material || !isAdmin || !galleriesReady) return;
+        document.getElementById('assignment-material').value = id;
+        document.getElementById('assignment-location').textContent = material.name + ' · ' +
+            courseName(material.course_key) + ' · Semana ' + material.week_number;
+        fillGalleries(document.getElementById('assignment-gallery'), material.course_key,
+            material.week_number, material.gallery_id);
+        document.getElementById('assignment-message').textContent = '';
+        document.getElementById('assignment-dialog').showModal();
+    }
+
+    // Bloquear cierres y envíos dobles mientras se confirma una operación.
+    async function galleryFormAction(formElement, message, action) {
+        if (formElement.dataset.busy === 'true') return;
+        formElement.dataset.busy = 'true';
+        const controls = Array.from(formElement.elements).map(el => [el, el.disabled]);
+        controls.forEach(([el]) => { el.disabled = true; });
+        message.textContent = 'Guardando...';
+        try {
+            await action();
+            renderMaterials();
+            aplicarBusqueda();
+            formElement.closest('dialog').close();
+        } catch (error) {
+            message.textContent = error.message || 'No se pudo guardar. Inténtalo de nuevo.';
+        } finally {
+            controls.forEach(([el, disabled]) => { el.disabled = disabled; });
+            delete formElement.dataset.busy;
+        }
+    }
+
+    document.getElementById('gallery-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const id = document.getElementById('gallery-id').value;
+        const name = document.getElementById('gallery-name').value.trim();
+        const description = document.getElementById('gallery-description').value.trim();
+        const course = document.getElementById('gallery-course').value;
+        const week = Number(document.getElementById('gallery-week').value);
+        await galleryFormAction(event.currentTarget, document.getElementById('gallery-message'), async () => {
+            if (!name) throw new Error('Escribe el nombre de la galería.');
+            const user = await requireGalleryAdmin();
+            let result;
+            if (id) {
+                result = await supabaseClient.from('galleries').update({ name, description: description || null })
+                    .eq('id', id).select().single();
+            } else {
+                const orders = galerias.filter(g => g.course_key === course && Number(g.week_number) === week)
+                    .map(g => Number(g.sort_order) || 0);
+                result = await supabaseClient.from('galleries').insert({
+                    course_key: course, week_number: week, name, description: description || null,
+                    sort_order: Math.max(-1, ...orders) + 1, created_by: user.id
+                }).select().single();
+            }
+            if (result.error) throw result.error;
+            const index = galerias.findIndex(g => g.id === result.data.id);
+            if (index < 0) galerias.push(result.data);
+            else galerias[index] = result.data;
+        });
+    });
+
+    document.getElementById('assignment-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const id = document.getElementById('assignment-material').value;
+        const galleryId = document.getElementById('assignment-gallery').value || null;
+        await galleryFormAction(event.currentTarget, document.getElementById('assignment-message'), async () => {
+            await requireGalleryAdmin();
+            const material = materiales.find(m => String(m.id) === id);
+            if (!material) throw new Error('No se encontró el material. Recarga la página.');
+            if (galleryId && !galerias.some(g => g.id === galleryId && g.course_key === material.course_key &&
+                Number(g.week_number) === Number(material.week_number))) {
+                throw new Error('La galería debe pertenecer al mismo curso y semana.');
+            }
+            const result = await supabaseClient.from('materials')
+                .update({ gallery_id: galleryId, updated_at: new Date().toISOString() })
+                .eq('id', id).select('id, gallery_id').single();
+            if (result.error) throw result.error;
+            material.gallery_id = result.data.gallery_id;
+        });
+    });
+
+    document.querySelectorAll('#gallery-dialog, #assignment-dialog').forEach(el => {
+        el.addEventListener('cancel', event => {
+            if (el.querySelector('form').dataset.busy === 'true') event.preventDefault();
+        });
+    });
+
+    document.addEventListener('click', async event => {
+        const close = event.target.closest('[data-close-dialog]');
+        if (close) {
+            const target = document.getElementById(close.dataset.closeDialog);
+            if (target?.querySelector('form').dataset.busy !== 'true') target?.close();
+            return;
+        }
+        const button = event.target.closest('[data-gallery-action]');
+        if (!button || button.disabled || !isAdmin || !galleriesReady) return;
+        const action = button.dataset.galleryAction;
+        const gallery = galerias.find(g => String(g.id) === button.dataset.id);
+        if (action === 'create') {
+            openGalleryDialog(button.dataset.course || document.querySelector('.curso-panel.activo').id,
+                button.dataset.week || 1);
+        } else if (action === 'edit' && gallery) {
+            openGalleryDialog(gallery.course_key, gallery.week_number, gallery);
+        } else if (action === 'assign') {
+            openAssignmentDialog(button.dataset.id);
+        } else if (action === 'delete' && gallery) {
+            if (!confirm('¿Eliminar la galería "' + gallery.name + '"?\n\nSus materiales y archivos se conservarán en “Materiales sin galería”.')) return;
+            button.disabled = true;
+            try {
+                await requireGalleryAdmin();
+                const result = await supabaseClient.from('galleries').delete().eq('id', gallery.id).select('id').single();
+                if (result.error) throw result.error;
+                // La clave foránea hace SET NULL en la base de datos; nunca borrar materiales ni archivos.
+                galerias = galerias.filter(g => g.id !== gallery.id);
+                materiales.forEach(m => { if (m.gallery_id === gallery.id) m.gallery_id = null; });
+                renderMaterials();
+                aplicarBusqueda();
+            } catch (error) {
+                alert('No se pudo eliminar la galería: ' + error.message);
+            } finally {
+                button.disabled = false;
+            }
+        }
+    });
+
     /* =====================================================
        INICIALIZAR
        ===================================================== */
@@ -1868,6 +1939,6 @@ async function eliminarMaterial(id) {
 
     await comprobarAdministrador();
 
-    await cargarMateriales();
+    await Promise.all([cargarMateriales(), cargarGalerias()]);
 
 });
