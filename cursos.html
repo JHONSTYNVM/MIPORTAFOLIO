@@ -6,6 +6,7 @@
     <title>Mis Cursos | Portafolio Académico</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cursos.css">
+    <link rel="stylesheet" href="chatbot/chatbot.css">
 </head>
 <body>
 
@@ -28,10 +29,21 @@
             <span class="logo-cursos">ALGORITMOS Y ESTRUCTURA DE DATOS <b>·</b> TALLER DE DESARROLLO DE APLICACIONES</span>
         </div>
     </div>
-    <nav class="menu">
+    <nav class="menu portfolio-menu-links">
     <a href="index.html">Inicio</a>
+
     <a href="cursos.html" class="activo">Mis cursos</a>
 </nav>
+    <nav class="upla-accesses" aria-label="Accesos oficiales UPLA">
+            <a class="upla-shortcut" href="https://intranet.upla.edu.pe/sesion" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 21h18M5 21V9h14v12M3 9l9-6 9 6M9 21v-5h6v5M8 12h1m6 0h1"/></svg>
+                Intranet UPLA
+            </a>
+            <a class="upla-shortcut" href="https://outlook.cloud.microsoft/mail/" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+                Correo Outlook
+            </a>
+    </nav>
     <a href="login.html" class="login">🔐 LOGIN</a>
 </header>
 
@@ -243,5 +255,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-config.js"></script>
 <script src="js/cursos.js"></script>
+
+    <script src="chatbot/conocimiento.js" defer></script>
+    <script src="chatbot/motor.js" defer></script>
+    <script src="chatbot/chatbot.js" defer></script>
 </body>
 </html>
