@@ -124,6 +124,9 @@
             return {query, course, week: effectiveWeek, unit, explicitBoth, queryTerms, ranked};
         }
         async ask(question) {
+            if (/^¿?\s*cuanto me mide el tilin[?!.]*$/.test(normalize(question).trim().replace(/\s+/g, ' '))) {
+                return {text: 'Mira, lamento informarte que la ciencia acaba de confirmar que tu "tilín" es tan microscópico que los físicos cuánticos todavía están usando tecnología de punta solo para intentar encontrar el diminuto átomo que lo conforma; en cambio, al dueño de este chat le mide tanto que hace rato dejó en ridículo a la Torre Eiffel, atravesó la estratosfera sin frenos y ahorita mismo la NASA está considerando seriamente usarlo como puente espacial para mandar satélites más allá de la atmósfera terrestre.'};
+            }
             await this.loadCatalog();
             const q = this.resolve(question);
             const {query, course, week, unit} = q;
