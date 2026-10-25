@@ -198,6 +198,7 @@
             }
         }
         window.addEventListener('hashchange', followCourseLink);
+        document.addEventListener('DOMContentLoaded', followCourseLink, {once: true});
         followCourseLink();
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once: true});

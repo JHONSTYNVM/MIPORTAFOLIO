@@ -4,7 +4,7 @@
     const ns = window.PORTFOLIO_CHATBOT;
     const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const stop = new Set(('a al algo algun alguna algunos ante aqui archivo archivos actividad actividades publicado publicados publicada publicadas material materiales galeria galerias evidencia evidencias trabajo trabajos curso cursos de del el en es esta estan este estos la las lo los un una unos unas y o u que cual cuales como donde cuando cuanto cuantos cuantas por para con sin sobre hay tiene tienen ver muestra muestrame dame dime quiero quisiera necesito puedo puedes podria favor me mi mis se su sus sus te tu tus hola buenas explicame explica explicacion ejemplo ejemplos diferencia diferencias entre funciona funcionan usar usa buscar busca encuentra buscarlo encontrar informacion semana semanas unidad unidades tema temas silabo silabos temario temarios segun programado programados saber conocer todos todas nuevo nuevos ultimo ultimos reciente recientes subido subidos descargar descarga descargarlo pdf imagen imagenes foto fotos video videos publicado publicacion publicaciones dos ambos dos portafolio').split(' '));
-    'todo toda disponible disponibles nuevas nueva ultimas ultima subidas subida recursos recurso documentos documento enlaces enlace practicas practica ejercicios ejercicio total cantidad listado listo mostrar ensename ensenar tienen tenemos ven estudia estudiar trata hablan contiene contenido favor porfa del mismo esa ese este esta ahi'.split(' ').forEach(w => stop.add(w));
+    'todo toda disponible disponibles nuevas nueva ultimas ultima subidas subida recursos recurso documentos documento enlaces enlace practicas practica ejercicios ejercicio total cantidad listado listo mostrar ensename ensenar tienen tenemos ven estudia estudiar trata hablan contiene contenido favor porfa del mismo esa ese este esta ahi definicion define definir defineme hablame entender funcionamiento'.split(' ').forEach(w => stop.add(w));
     const words = value => normalize(value).match(/[a-z0-9]+/g) || [];
     const terms = value => [...new Set(words(value).filter(w => w.length > 1 && !stop.has(w) && !/^\d+$/.test(w)))];
     function similar(a, b) {
@@ -142,12 +142,14 @@
             if (/intranet|outlook|correo|accesos upla/.test(query)) return {text: 'Estos accesos abren las páginas oficiales en una pestaña nueva. El portafolio solo redirige; no recibe credenciales.', links: [{label: 'Intranet UPLA', url: 'https://intranet.upla.edu.pe/sesion'}, {label: 'Correo Outlook', url: 'https://outlook.cloud.microsoft/mail/'}]};
             if (/\b(login|administrador|administracion|subir|publicar)\b/.test(query) && !/publicad/.test(query)) return {text: 'El acceso LOGIN permite al administrador autorizado gestionar los materiales y las galerías de cada semana. Para consultar lo publicado no necesitas iniciar sesión.', links: [{label: 'Acceso de administrador', url: 'login.html'}]};
             const published = /actividades?|publicad|material|galeri|archivos?|evidenci|trabajos?|pdf|imagen|foto|video|descarg|subid|publicacion|ejercicios?|practic|proyecto|documento|enlace|recurso/.test(query);
-            const explain = /explic|que (?:es|son|significa|aplicaciones|usos)|como (?:funcion|se |usar|crear|hacer)|diferencia|compara|ejemplo|para que/.test(query);
+            const explain = /explic|defin|hablame|entiend|que (?:es|son|significa|aplicaciones|usos|hace)|como (?:funcion|se |usar|crear|hacer|uso|utiliz|implement)|diferencia|compara|ejemplo|para que/.test(query)
+                || [...(ns.academicTopics || []), ...q.ranked].some(row => normalize(row.title) === query.replace(/[?!.]+$/, ''));
             const thematic = /silabo|temario|programad|previsto/.test(query);
             if (explain) {
-                const concept = ns.concepts.filter(r => (!course || r.course === course) && (!week || r.week === week))
-                    .map(r => ({...r, score: score(terms(query), r.title + ' ' + r.aliases)})).sort((a,b) => b.score-a.score)[0];
-                if (concept && concept.score > 0 && concept.score >= (q.ranked[0]?.score || 0) && !/actividad|publicad|galeri|material|archivo/.test(query)) return this.academicAnswer([concept]);
+                const topicTerms = q.queryTerms.filter(term => term !== 'java');
+                const concept = ns.concepts.concat(ns.academicTopics || []).filter(r => (!course || r.course === course || r.courses?.includes(course)) && (!week || r.week === week || ns.academicTopics?.includes(r)))
+                    .map(r => ({...r, course: course && r.courses?.includes(course) ? course : r.course, score: score(topicTerms.length ? topicTerms : terms(query), r.title + ' ' + r.aliases)})).sort((a,b) => b.score-a.score)[0];
+                if (concept && concept.score > 0 && concept.score >= (q.ranked[0]?.score || 0) && !/actividad|publicad|galeri|material/.test(query)) return this.withPublications(this.academicAnswer([concept]), q, concept.course);
             }
             if (published && !thematic && !(explain && q.ranked[0]?.score > 0 && !/actividad|publicad|galeri|material|evidenci/.test(query))) {
                 await this.refresh();
@@ -157,11 +159,11 @@
             if (explain && q.ranked[0]?.score > 0) {
                 // El lenguaje contextualiza la explicación; el concepto determina el tema.
                 const topicTerms = q.queryTerms.filter(term => term !== 'java');
-                const academicRows = topicTerms.length ? q.ranked.map(r => ({...r, score: score(topicTerms, r.title + ' ' + r.program + ' ' + r.aliases + ' ' + r.portfolioTitle)})).sort((a,b) => b.score-a.score) : q.ranked;
+                const academicRows = topicTerms.length ? q.ranked.map(r => ({...r, score: score(topicTerms, r.title + ' ' + r.program + ' ' + r.aliases)})).sort((a,b) => b.score-a.score) : q.ranked;
                 const selected = academicRows.filter(r => r.score > 0 && r.score >= academicRows[0].score * .75).slice(0, /diferencia|compara/.test(query) ? 3 : 2);
                 if (!selected.length) return this.unknown(course);
                 if (selected.every(r => r.course === selected[0].course)) this.context = {course: selected[0].course, week: selected.length === 1 ? selected[0].week : null, unit: null};
-                const result = this.academicAnswer(selected);
+                const result = await this.withPublications(this.academicAnswer(selected), q, selected.every(r => r.course === selected[0].course) ? selected[0].course : course);
                 return this.respond(question, result, selected);
             }
             const extras = ns.extra.filter(r => (!course || r.course === course) && (!unit || !r.unit || r.unit === unit))
@@ -192,7 +194,7 @@
         academicAnswer(rows) {
             const sections = rows.flatMap(row => {
                 const sentences = (row.explanation || row.text).split(/(?<=[.!?])\s+(?=[\p{L}¿])/u);
-                const guide = (row.text ? ns.studyGuides.concepts[row.title] : ns.studyGuides[row.course]?.[row.week - 1]) || [];
+                const guide = row.guide || (row.text ? ns.studyGuides.concepts[row.title] : ns.studyGuides[row.course]?.[row.week - 1]) || [];
                 return [
                     {title: rows.length > 1 ? row.title + ' · Qué es' : 'Qué es', text: sentences[0]},
                     ...(sentences.length > 1 ? [{title: 'Cómo funciona', text: sentences.slice(1).join(' ')}] : []),
@@ -204,6 +206,19 @@
                 text: sections.map(s => s.title + '\n' + s.text + (s.code ? '\n' + s.code : '')).join('\n\n'),
                 items: rows.map(r => ({label: ns.courses[r.course].name + ' · Semana ' + r.week, url: courseLink(r.course, r.week), detail: r.program || ns.courses[r.course].weeks[r.week - 1][1], badge: 'REFERENCIA DEL SÍLABO'})),
                 note: 'Ejemplos didácticos, no entregas publicadas. El sílabo programa el tema; las actividades publicadas se verifican por separado.'};
+        }
+        async withPublications(result, q, course) {
+            // Reutiliza exclusivamente las lecturas y los enlaces ya existentes; no reasigna contenidos.
+            await this.refresh();
+            const specific = q.queryTerms.filter(term => term !== 'java');
+            const searchTerms = specific.length ? specific : q.queryTerms;
+            const found = this.publishedAnswer({...q, course, query: '', unit: null, queryTerms: searchTerms});
+            const references = found.items.filter(item => searchTerms.length && score(searchTerms, item.label + ' ' + item.summary) >= searchTerms.length * .75).slice(0, 2);
+            if (references.length) result.items.push(...references);
+            else result.note += this.available.materials && this.available.galleries
+                ? ' No encontré publicaciones cuyos nombres o descripciones coincidan con esta consulta.'
+                : ' No pude verificar todas las fuentes públicas en este momento.';
+            return result;
         }
         publishedAnswer(q) {
             const {course, week, unit, queryTerms} = q;
